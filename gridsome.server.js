@@ -5,9 +5,21 @@
 // Changes here require a server restart.
 // To restart press CTRL + C in terminal and run `gridsome develop`
 
-module.exports = function (api) {
+const path = require('path')
+const surfer = require('./src/data/surfers.json')
+
+module.exports = function(api) {
   api.loadSource(({ addCollection }) => {
     // Use the Data Store API here: https://gridsome.org/docs/data-store-api/
+
+    const collection = addCollection('Surfer')
+
+    for (const image of surfer) {
+      collection.addNode({
+        src: path.resolve(`./src/assets/images/${image.src}`),
+        alt: image.alt
+      })
+    }
   })
 
   api.createPages(({ createPage }) => {
